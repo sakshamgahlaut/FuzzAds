@@ -7,19 +7,46 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-app.use(cors());
+/* ===========================
+   Middlewares
+=========================== */
+
+app.use(cors({
+  origin: "*", // Production me yaha frontend URL daal sakte ho
+}));
+
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+/* ===========================
+   Routes
+=========================== */
 
-app.use("/api/auth", authRoutes);
-
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Root Test Route
+app.get("/", (req, res) => {
+  res.status(200).send("FuzzAds Backend is Running 🚀");
 });
 
-app.get("/", (req, res) => {
-  res.send("FuzzAds Backend is Running 🚀");
+// Auth Routes
+app.use("/api/auth", authRoutes);
+
+/* ===========================
+   MongoDB Connection
+=========================== */
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+  });
+
+/* ===========================
+   Start Server
+=========================== */
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });

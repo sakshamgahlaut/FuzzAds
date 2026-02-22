@@ -3,30 +3,23 @@ import React from "react";
 const API = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 p-8">
-
       <div className="max-w-5xl mx-auto bg-white/40 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/30">
 
-        <h2 className="text-3xl font-bold mb-8">API</h2>
+        <h2 className="text-3xl font-bold mb-8">FuzzAds API Documentation</h2>
 
-        {/* BASIC INFO TABLE */}
+        {/* BASIC INFO */}
         <div className="mb-8">
           <table className="w-full border border-white/30">
             <tbody>
               <tr className="border-b">
-                <td className="p-3 font-semibold">HTTP Method</td>
-                <td className="p-3">POST</td>
-              </tr>
-              <tr className="border-b">
-                <td className="p-3 font-semibold">API URL</td>
+                <td className="p-3 font-semibold">Base URL</td>
                 <td className="p-3">
-                  https://yourpanel.com/api/v2
+                  https://fuzzads.onrender.com
                 </td>
               </tr>
               <tr className="border-b">
-                <td className="p-3 font-semibold">API Key</td>
-                <td className="p-3">
-                  Get API key from Account page
-                </td>
+                <td className="p-3 font-semibold">Content Type</td>
+                <td className="p-3">application/json</td>
               </tr>
               <tr>
                 <td className="p-3 font-semibold">Return Format</td>
@@ -36,86 +29,47 @@ const API = () => {
           </table>
         </div>
 
-        {/* SERVICE LIST */}
-        <SectionTitle title="Service List" />
+        {/* REGISTER */}
+        <SectionTitle title="User Registration" />
 
         <ApiTable
           data={[
-            { param: "key", desc: "Your API Key" },
-            { param: "action", desc: "services" },
+            { param: "Method", desc: "POST" },
+            { param: "Endpoint", desc: "/api/auth/register" },
+            { param: "name", desc: "User full name" },
+            { param: "email", desc: "User email" },
+            { param: "password", desc: "User password" },
           ]}
         />
 
         <CodeBlock>
-{`[
-  {
-    "service": 1,
-    "name": "Instagram Followers",
-    "type": "Default",
-    "category": "Instagram",
-    "rate": "0.90",
-    "min": 50,
-    "max": 10000
-  }
-]`}
-        </CodeBlock>
+{`POST https://fuzzads.onrender.com/api/auth/register
 
-        {/* NEW ORDER */}
-        <SectionTitle title="New Order" />
-
-        <ApiTable
-          data={[
-            { param: "key", desc: "Your API Key" },
-            { param: "action", desc: "add" },
-            { param: "service", desc: "Service ID" },
-            { param: "link", desc: "Service link" },
-            { param: "quantity", desc: "Quantity" },
-            { param: "runs", desc: "Runs (optional)" },
-            { param: "interval", desc: "Interval (optional)" },
-          ]}
-        />
-
-        <CodeBlock>
-{`{
-  "order": 23501
+{
+  "name": "John Doe",
+  "email": "john@gmail.com",
+  "password": "123456"
 }`}
         </CodeBlock>
 
-        {/* ORDER STATUS */}
-        <SectionTitle title="Order Status" />
+        {/* LOGIN */}
+        <SectionTitle title="User Login" />
 
         <ApiTable
           data={[
-            { param: "key", desc: "Your API Key" },
-            { param: "action", desc: "status" },
-            { param: "order", desc: "Order ID" },
+            { param: "Method", desc: "POST" },
+            { param: "Endpoint", desc: "/api/auth/login" },
+            { param: "email", desc: "User email" },
+            { param: "password", desc: "User password" },
           ]}
         />
 
         <CodeBlock>
-{`{
-  "charge": "0.27819",
-  "start_count": "3572",
-  "status": "Partial",
-  "remains": "157",
-  "currency": "USD"
-}`}
-        </CodeBlock>
+{`POST https://fuzzads.onrender.com/api/auth/login
 
-        {/* USER BALANCE */}
-        <SectionTitle title="User Balance" />
-
-        <ApiTable
-          data={[
-            { param: "key", desc: "Your API Key" },
-            { param: "action", desc: "balance" },
-          ]}
-        />
-
-        <CodeBlock>
-{`{
-  "balance": "100.84292",
-  "currency": "USD"
+{
+  "email": "john@gmail.com",
+  "password": "123456"
 }`}
         </CodeBlock>
 
