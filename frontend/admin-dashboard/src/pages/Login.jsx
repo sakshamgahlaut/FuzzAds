@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+const BASE_URL = "https://fuzzads.onrender.com";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -17,7 +21,9 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("https://fuzzads.onrender.com/api/auth/login", {
+      setLoading(true);
+
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,22 +34,23 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || "Invalid credentials");
-        return;
+        throw new Error(data.message || "Invalid credentials");
       }
 
       // ✅ Save token
       localStorage.setItem("token", data.token);
 
-      // ✅ Save user (optional)
+      // ✅ Save user
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ Redirect to dashboard
-      navigate("/");
+      // ✅ Redirect after success
+      navigate("/dashboard");
 
     } catch (err) {
-      console.error(err);
-      setError("Server Error");
+      console.error("Login Error:", err.message);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,9 +86,10 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
+          disabled={loading}
+          className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-sm mt-4 text-center">
