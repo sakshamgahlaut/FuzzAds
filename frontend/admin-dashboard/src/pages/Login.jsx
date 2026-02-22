@@ -17,7 +17,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("https://fuzzads.onrender.com/api/auth/register", {
+      const response = await fetch("https://fuzzads.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
